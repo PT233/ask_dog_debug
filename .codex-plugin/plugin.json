@@ -6,8 +6,8 @@
     "name": "PT233",
     "url": "https://github.com/PT233"
   },
-  "homepage": "https://github.com/PT233/dsh-debug-agent",
-  "repository": "https://github.com/PT233/dsh-debug-agent",
+  "homepage": "https://github.com/PT233/ask_dog_debug",
+  "repository": "https://github.com/PT233/ask_dog_debug",
   "license": "Apache-2.0",
   "keywords": ["neowa", "ros2", "robotics", "diagnostics", "topology"],
   "skills": "./skills/",

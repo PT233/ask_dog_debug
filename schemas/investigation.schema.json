@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/PT233/dsh-debug-agent/schemas/investigation.schema.json",
+  "$id": "https://github.com/PT233/ask_dog_debug/schemas/investigation.schema.json",
   "title": "Investigation",
   "type": "object",
   "required": [

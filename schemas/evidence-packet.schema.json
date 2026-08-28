@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/PT233/dsh-debug-agent/schemas/evidence-packet.schema.json",
+  "$id": "https://github.com/PT233/ask_dog_debug/schemas/evidence-packet.schema.json",
   "title": "EvidencePacket",
   "type": "object",
   "additionalProperties": false,

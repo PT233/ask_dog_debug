@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/PT233/dsh-debug-agent/schemas/case-card.schema.json",
+  "$id": "https://github.com/PT233/ask_dog_debug/schemas/case-card.schema.json",
   "title": "CaseCard",
   "type": "object",
   "additionalProperties": false,
