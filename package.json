@@ -1,0 +1,16 @@
+{
+  "name": "ask-dog-debug",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "ask-dog-debug": "./scripts/ask-dog.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "npm test && node scripts/ask-dog.mjs --help"
+  }
+}

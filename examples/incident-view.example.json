@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "example-004-camera-chain",
+  "robot_id": "004",
+  "platform": "a2w",
+  "platform_knowledge_status": "ready",
+  "investigation_state": "RootCauseProven",
+  "symptom": "示例：规划输入持续变旧",
+  "root_cause": "合成示例：NX 感知回调队列饱和，使输出时间戳落后并传播到 i7 规划输入。",
+  "root_entity_id": "node:/camera_driver",
+  "impact_entity_id": "node:/planner",
+  "entities": [
+    { "id": "node:/camera_driver", "kind": "node", "label": "/camera_driver", "board": "004-nx", "chain_ids": ["primary"] },
+    { "id": "topic:/camera", "kind": "topic", "label": "/camera", "board": "cross-board", "chain_ids": ["primary"] },
+    { "id": "node:/perception", "kind": "node", "label": "/perception", "board": "004-nx", "chain_ids": ["primary"] },
+    { "id": "topic:/detections", "kind": "topic", "label": "/detections", "board": "cross-board", "chain_ids": ["primary"] },
+    { "id": "node:/planner", "kind": "node", "label": "/planner", "board": "004-i7", "chain_ids": ["primary"] }
+  ],
+  "relations": [
+    { "id": "r1", "from": "node:/camera_driver", "to": "topic:/camera", "kind": "publishes", "chain_ids": ["primary"] },
+    { "id": "r2", "from": "topic:/camera", "to": "node:/perception", "kind": "subscribes", "chain_ids": ["primary"] },
+    { "id": "r3", "from": "node:/perception", "to": "topic:/detections", "kind": "publishes", "chain_ids": ["primary"] },
+    { "id": "r4", "from": "topic:/detections", "to": "node:/planner", "kind": "subscribes", "chain_ids": ["primary"] }
+  ],
+  "stages": [
+    { "id": "capture", "name": "采集与发布", "board": "004-nx", "input": "camera device", "output": "/camera", "checkpoint": "帧率、帧龄、序号", "status": "observed", "entity_ids": ["node:/camera_driver", "topic:/camera"], "chain_ids": ["primary"], "evidence_refs": ["runs/example/camera.json"] },
+    { "id": "perception", "name": "感知处理", "board": "004-nx", "input": "/camera", "output": "/detections", "checkpoint": "回调队列与输出时间戳", "status": "root-cause", "entity_ids": ["node:/perception", "topic:/detections"], "chain_ids": ["primary"], "evidence_refs": ["runs/example/perception.json"] },
+    { "id": "planning", "name": "规划影响", "board": "004-i7", "input": "/detections", "output": "planner decision", "checkpoint": "输入年龄", "status": "impacted", "entity_ids": ["node:/planner"], "chain_ids": ["primary"], "evidence_refs": ["runs/example/planner.json"] }
+  ],
+  "chains": [
+    { "id": "primary", "label": "相机到规划的示例故障链", "stage_ids": ["capture", "perception", "planning"] }
+  ],
+  "evidence_refs": [
+    "runs/example/camera.json",
+    "runs/example/perception.json",
+    "runs/example/planner.json"
+  ]
+}

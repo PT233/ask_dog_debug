@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "platform": "m20",
+  "status": "not-ready",
+  "fallback": null,
+  "entities": [],
+  "relations": [],
+  "missing_evidence": [
+    "verified robot and board identities",
+    "live Node, Topic, Service, and Action inventory",
+    "node-endpoint relations",
+    "board ownership and deployment fingerprints"
+  ]
+}

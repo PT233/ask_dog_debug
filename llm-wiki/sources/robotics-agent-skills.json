@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "name": "robotics-agent-skills",
+  "repository": "https://github.com/arpitg1304/robotics-agent-skills",
+  "commit": "f9bc5467ff9ee3d23f1a1b0b29a649843bb6ad11",
+  "license": "Apache-2.0",
+  "retrieved_at": "2026-08-29",
+  "adapted_methods": [
+    "ROS 2 QoS and endpoint observation",
+    "DDS and container network diagnostics",
+    "sensor timing and data-quality observation",
+    "event-driven replay and regression validation"
+  ],
+  "excluded_actions": [
+    "ROS publish, service call, action goal, parameter set, and lifecycle transition",
+    "daemon, service, and container restart",
+    "network, IPC, device, calibration, or deployment mutation"
+  ]
+}

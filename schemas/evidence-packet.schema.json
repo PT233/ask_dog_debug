@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/PT233/dsh-debug-agent/schemas/evidence-packet.schema.json",
+  "title": "EvidencePacket",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "robot_id",
+    "platform",
+    "scout_role",
+    "hypothesis",
+    "command",
+    "observed_at",
+    "observations",
+    "verdict",
+    "confidence",
+    "missing_evidence",
+    "next_probe"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "robot_id": { "type": "string", "minLength": 1 },
+    "platform": { "enum": ["a2w", "m20"] },
+    "scout_role": { "enum": ["ros", "runtime", "network", "drift", "hardware"] },
+    "hypothesis": { "type": "string", "minLength": 1 },
+    "command": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "observations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["summary", "evidence_ref"],
+        "properties": {
+          "summary": { "type": "string", "minLength": 1 },
+          "evidence_ref": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "verdict": { "enum": ["supports", "refutes", "inconclusive"] },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "missing_evidence": { "type": "array", "items": { "type": "string" } },
+    "next_probe": { "type": "string", "minLength": 1 }
+  }
+}

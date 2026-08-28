@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/PT233/dsh-debug-agent/schemas/investigation.schema.json",
+  "title": "Investigation",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "robot_id",
+    "platform",
+    "knowledge_status",
+    "symptom",
+    "state",
+    "created_at",
+    "updated_at",
+    "evidence_refs"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "robot_id": { "type": "string", "minLength": 1 },
+    "platform": { "enum": ["a2w", "m20"] },
+    "knowledge_status": { "enum": ["ready", "not-ready"] },
+    "symptom": { "type": "string", "minLength": 1 },
+    "state": {
+      "enum": [
+        "New",
+        "Running",
+        "ReproductionEstablished",
+        "RootCauseProven",
+        "AwaitingUserConfirmation",
+        "Closed",
+        "Rejected"
+      ]
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "reproduction": { "type": "string" },
+    "root_cause": { "type": "string" },
+    "problem_chain": { "type": "array", "items": { "type": "string" } },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "evidence_validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packet_count", "supporting_packet_count", "validated_at", "validated_refs"],
+      "properties": {
+        "packet_count": { "type": "integer", "minimum": 1 },
+        "supporting_packet_count": { "type": "integer", "minimum": 1 },
+        "validated_at": { "type": "string", "format": "date-time" },
+        "validated_refs": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "user_confirmed": { "type": "boolean" },
+    "user_confirmation": { "const": "affirmed" },
+    "user_confirmation_note": { "type": "string", "minLength": 1 },
+    "rejection_reason": { "type": "string" },
+    "applicability": { "enum": ["machine", "platform"] },
+    "fingerprints": { "type": "object" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  }
+}

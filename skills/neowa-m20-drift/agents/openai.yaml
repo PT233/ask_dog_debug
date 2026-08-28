@@ -1,0 +1,6 @@
+interface:
+  display_name: "Neowa M20 drift scout"
+  short_description: "Internal M20 drift evidence scout"
+  default_prompt: "Use $neowa-m20-drift only for the hypothesis assigned by $ask-dog-debug."
+policy:
+  allow_implicit_invocation: false

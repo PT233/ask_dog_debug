@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/PT233/dsh-debug-agent/schemas/case-card.schema.json",
+  "title": "CaseCard",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "robot_id",
+    "platform",
+    "symptom",
+    "root_cause",
+    "reproduction",
+    "problem_chain",
+    "evidence_refs",
+    "evidence_validation",
+    "user_confirmed",
+    "user_confirmation",
+    "user_confirmation_note",
+    "closed_at",
+    "applicability",
+    "fingerprints",
+    "tags"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "case_id": { "type": "string", "minLength": 1 },
+    "robot_id": { "type": "string", "minLength": 1 },
+    "platform": { "enum": ["a2w", "m20"] },
+    "symptom": { "type": "string", "minLength": 1 },
+    "root_cause": { "type": "string", "minLength": 1 },
+    "reproduction": { "type": "string", "minLength": 1 },
+    "problem_chain": { "type": "array", "minItems": 2, "items": { "type": "string" } },
+    "evidence_refs": { "type": "array", "minItems": 2, "items": { "type": "string" } },
+    "evidence_validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packet_count", "supporting_packet_count", "validated_at", "validated_refs"],
+      "properties": {
+        "packet_count": { "type": "integer", "minimum": 1 },
+        "supporting_packet_count": { "type": "integer", "minimum": 1 },
+        "validated_at": { "type": "string", "format": "date-time" },
+        "validated_refs": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "user_confirmed": { "const": true },
+    "user_confirmation": { "const": "affirmed" },
+    "user_confirmation_note": { "type": "string", "minLength": 1 },
+    "closed_at": { "type": "string", "format": "date-time" },
+    "applicability": { "enum": ["machine", "platform"] },
+    "fingerprints": { "type": "object" },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  }
+}

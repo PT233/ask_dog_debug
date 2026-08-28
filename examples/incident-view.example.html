@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+  <title>Ask Dog Debug · Incident Chain</title>
+  <style>
+    :root{color-scheme:dark;--bg:#07111f;--panel:#0d1b2d;--line:#29435f;--text:#e8f1fb;--muted:#8ba1b7;--accent:#41d6b3;--warn:#ffbd5a;--cause:#ff6b78;--impact:#7aa7ff}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0,#132b43 0,var(--bg) 44%);color:var(--text);font:14px/1.5 Inter,ui-sans-serif,system-ui,sans-serif;min-height:100vh}
+    header{position:sticky;top:0;z-index:5;padding:18px 24px;background:rgba(7,17,31,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+    h1{font-size:20px;margin:0 0 5px}.subtitle{color:var(--muted)}.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.pill{border:1px solid var(--line);border-radius:99px;padding:3px 9px;color:var(--muted)}
+    .layout{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px;padding:20px;max-width:1720px;margin:auto}.panel{background:rgba(13,27,45,.9);border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.25)}
+    .main{padding:18px;min-width:0}.toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:16px}.toolbar a,.toolbar button{color:var(--text);background:#132a42;border:1px solid var(--line);padding:7px 10px;border-radius:8px;text-decoration:none;cursor:pointer}
+    .chain{display:flex;align-items:stretch;gap:10px;overflow:auto;padding:8px 2px 20px}.stage{min-width:230px;max-width:280px;padding:14px;border:1px solid var(--line);border-radius:12px;background:#0a1727;cursor:pointer;transition:.2s}.stage:hover,.is-focused{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+    .arrow{align-self:center;color:var(--accent);font-size:22px}.stage h2{font-size:15px;margin:0 0 8px}.meta{display:grid;grid-template-columns:74px 1fr;gap:4px;color:var(--muted)}.meta b{color:#b9cbe0}.status-root-cause{color:var(--cause)}.status-impacted{color:var(--impact)}
+    .entities{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.entity{border:1px solid var(--line);border-radius:7px;background:#10253b;color:var(--text);padding:5px 7px;cursor:pointer;font-family:ui-monospace,SFMono-Regular,monospace;font-size:12px}.entity[data-kind=topic]{border-color:#806a36}.entity[data-kind=service],.entity[data-kind=action]{border-color:#594d92}
+    .relations{border-top:1px solid var(--line);padding-top:14px}.relation{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:center;width:100%;text-align:left;background:transparent;border:0;color:var(--muted);padding:5px;cursor:pointer}.relation code{overflow:hidden;text-overflow:ellipsis;color:var(--text)}
+    .side{position:sticky;top:102px;height:calc(100vh - 122px);overflow:auto;padding:18px}.side h2{font-size:17px;margin:0 0 12px}.side h3{font-size:13px;color:var(--accent);margin:18px 0 7px}.side ol,.side ul{padding-left:20px}.root-cause{padding:11px;border-left:3px solid var(--cause);background:#251523;border-radius:5px}.is-dimmed{opacity:.16;filter:saturate(.2)}
+    @media(max-width:980px){.layout{grid-template-columns:1fr}.side{position:static;height:auto}.chain{flex-direction:column}.arrow{transform:rotate(90deg)}}
+  </style>
+</head>
+<body>
+  <header><h1 id="title"></h1><div class="subtitle" id="subtitle"></div><div class="pills" id="pills"></div></header>
+  <div class="layout">
+    <main class="panel main">
+      <div class="toolbar"><strong>问题数据链路</strong><div><button id="show-all" type="button">显示全部问题范围</button> <a href="file:///tmp/ask-dog-debug-build.vSoJ9x/ask-dog-debug/web/a2w-advanced.html">高级全图</a></div></div>
+      <section class="chain" id="stage-chain" aria-label="incident stages"></section>
+      <section class="relations"><h2>精确 ROS 关系</h2><div id="relations"></div></section>
+    </main>
+    <aside class="panel side" id="chain-detail" aria-live="polite"></aside>
+  </div>
+  <script id="incident-data" type="application/json">{"schema_version":"1.0.0","run_id":"example-004-camera-chain","robot_id":"004","platform":"a2w","platform_knowledge_status":"ready","investigation_state":"RootCauseProven","symptom":"示例：规划输入持续变旧","root_cause":"合成示例：NX 感知回调队列饱和，使输出时间戳落后并传播到 i7 规划输入。","root_entity_id":"node:/camera_driver","impact_entity_id":"node:/planner","entities":[{"id":"node:/camera_driver","kind":"node","label":"/camera_driver","board":"004-nx","chain_ids":["primary"]},{"id":"topic:/camera","kind":"topic","label":"/camera","board":"cross-board","chain_ids":["primary"]},{"id":"node:/perception","kind":"node","label":"/perception","board":"004-nx","chain_ids":["primary"]},{"id":"topic:/detections","kind":"topic","label":"/detections","board":"cross-board","chain_ids":["primary"]},{"id":"node:/planner","kind":"node","label":"/planner","board":"004-i7","chain_ids":["primary"]}],"relations":[{"id":"r1","from":"node:/camera_driver","to":"topic:/camera","kind":"publishes","chain_ids":["primary"]},{"id":"r2","from":"topic:/camera","to":"node:/perception","kind":"subscribes","chain_ids":["primary"]},{"id":"r3","from":"node:/perception","to":"topic:/detections","kind":"publishes","chain_ids":["primary"]},{"id":"r4","from":"topic:/detections","to":"node:/planner","kind":"subscribes","chain_ids":["primary"]}],"stages":[{"id":"capture","name":"采集与发布","board":"004-nx","input":"camera device","output":"/camera","checkpoint":"帧率、帧龄、序号","status":"observed","entity_ids":["node:/camera_driver","topic:/camera"],"chain_ids":["primary"],"evidence_refs":["runs/example/camera.json"]},{"id":"perception","name":"感知处理","board":"004-nx","input":"/camera","output":"/detections","checkpoint":"回调队列与输出时间戳","status":"root-cause","entity_ids":["node:/perception","topic:/detections"],"chain_ids":["primary"],"evidence_refs":["runs/example/perception.json"]},{"id":"planning","name":"规划影响","board":"004-i7","input":"/detections","output":"planner decision","checkpoint":"输入年龄","status":"impacted","entity_ids":["node:/planner"],"chain_ids":["primary"],"evidence_refs":["runs/example/planner.json"]}],"chains":[{"id":"primary","label":"相机到规划的示例故障链","stage_ids":["capture","perception","planning"]}],"evidence_refs":["runs/example/camera.json","runs/example/perception.json","runs/example/planner.json"]}</script>
+  <script>
+    const manifest=JSON.parse(document.getElementById('incident-data').textContent);
+    const byId=(items)=>new Map(items.map(item=>[item.id,item]));
+    const entities=byId(manifest.entities), stages=byId(manifest.stages), chains=byId(manifest.chains);
+    const el=(tag,className,text)=>{const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node};
+    const chainAttr=(item)=>item.chain_ids.join(' ');
+    document.getElementById('title').textContent=manifest.symptom;
+    document.getElementById('subtitle').textContent='Run '+manifest.run_id+' · '+manifest.robot_id.toUpperCase()+' / '+manifest.platform.toUpperCase();
+    for(const text of [manifest.investigation_state,'Root → '+entities.get(manifest.root_entity_id).label,'Impact → '+entities.get(manifest.impact_entity_id).label])document.getElementById('pills').append(el('span','pill',text));
+    const stageRoot=document.getElementById('stage-chain');
+    manifest.stages.forEach((stage,index)=>{
+      if(index)stageRoot.append(el('div','arrow','→'));
+      const card=el('article','stage');card.tabIndex=0;card.dataset.chainIds=chainAttr(stage);
+      card.append(el('h2','',String(index+1).padStart(2,'0')+' · '+stage.name));
+      const meta=el('div','meta');
+      for(const [key,value] of [['板卡',stage.board],['输入',stage.input],['输出',stage.output],['检查点',stage.checkpoint],['证据状态',stage.status]]){meta.append(el('b','',key),el('span',key==='证据状态'?'status-'+value:'',value))}card.append(meta);
+      const entityRoot=el('div','entities');for(const id of stage.entity_ids){const entity=entities.get(id),button=el('button','entity',entity.label);button.type='button';button.dataset.kind=entity.kind;button.dataset.chainIds=chainAttr(entity);button.addEventListener('click',event=>{event.stopPropagation();selectChain(entity.chain_ids[0])});entityRoot.append(button)}card.append(entityRoot);
+      card.addEventListener('click',()=>selectChain(stage.chain_ids[0]));card.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();selectChain(stage.chain_ids[0])}});stageRoot.append(card);
+    });
+    const relationRoot=document.getElementById('relations');for(const relation of manifest.relations){const row=el('button','relation');row.type='button';row.dataset.chainIds=chainAttr(relation);row.append(el('code','',entities.get(relation.from).label),el('span','',relation.kind+' →'),el('code','',entities.get(relation.to).label));row.addEventListener('click',()=>selectChain(relation.chain_ids[0]));relationRoot.append(row)}
+    function showDetail(chainId){const root=document.getElementById('chain-detail');root.replaceChildren();const chain=chains.get(chainId);root.append(el('h2','',chain?.label||'全部问题范围'));root.append(el('div','root-cause',manifest.root_cause));if(chain){root.append(el('h3','','有序阶段'));const list=el('ol');for(const id of chain.stage_ids){const stage=stages.get(id);const item=el('li');item.append(el('strong','',stage.name+' · '),document.createTextNode(stage.board+' · '+stage.checkpoint));list.append(item)}root.append(list)}root.append(el('h3','','证据'));const evidence=el('ul');for(const ref of manifest.evidence_refs)evidence.append(el('li','',ref));root.append(evidence)}
+    function selectChain(chainId){for(const node of document.querySelectorAll('[data-chain-ids]')){const selected=node.dataset.chainIds.split(' ').includes(chainId);node.classList.toggle('is-dimmed',!selected);node.classList.toggle('is-focused',selected)}showDetail(chainId)}
+    document.getElementById('show-all').addEventListener('click',()=>{for(const node of document.querySelectorAll('[data-chain-ids]'))node.classList.remove('is-dimmed','is-focused');showDetail(null)});
+    selectChain(manifest.chains.find(chain=>chain.stage_ids.length)?.id||manifest.chains[0].id);
+  </script>
+</body>
+</html>

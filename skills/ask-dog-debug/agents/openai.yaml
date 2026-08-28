@@ -1,0 +1,6 @@
+interface:
+  display_name: "Ask Dog Debug"
+  short_description: "Evidence-first Neowa robot diagnosis"
+  default_prompt: "Use $ask-dog-debug to diagnose this robot symptom and show the proven problem data chain."
+policy:
+  allow_implicit_invocation: true

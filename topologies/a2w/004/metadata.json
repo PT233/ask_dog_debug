@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "platform": "a2w",
+  "robot_id": "004",
+  "status": "offline-baseline",
+  "captured_at": "2026-08-28T07:11:24.090Z",
+  "counts": {
+    "nodes": 60,
+    "topics": 293,
+    "services": 370,
+    "actions": 7,
+    "node_endpoint_relations": 929
+  },
+  "ownership": {
+    "confirmed_i7_nodes": 20,
+    "confirmed_nx_nodes": 9,
+    "unknown_nodes": 31
+  },
+  "caveats": [
+    "This snapshot is a routing baseline, not current runtime proof.",
+    "observed_on is probe visibility, not process ownership.",
+    "Duplicate ROS node names cannot be separated into fictional instances."
+  ],
+  "sha256": {
+    "inventory.json": "5f12670b075a154c97fe34a7df92f6c45d08e4fe95ced46cbede40b8a63ff8bf",
+    "node-links.json": "150c5f092396c335d7995603eb45151d842b8076d0c0e5b10e1ee942aec8fc38",
+    "advanced_html": "f482dd2c4b059a70206790d63a9784763e37663fc14c663013d7d45f76990436"
+  }
+}

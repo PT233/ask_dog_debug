@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/PT233/dsh-debug-agent/schemas/robot-registry.schema.json",
+  "title": "RobotRegistry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "identity_source", "robots", "platform_templates"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "identity_source": { "const": "/etc/dsh-agent/robot-id" },
+    "robots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["robot_id", "platform", "knowledge_status", "boards"],
+        "properties": {
+          "robot_id": { "type": "string", "pattern": "^[a-zA-Z0-9._-]+$" },
+          "platform": { "enum": ["a2w", "m20"] },
+          "knowledge_status": { "enum": ["ready", "not-ready"] },
+          "boards": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["board_id", "role", "ssh", "agent_root"],
+              "properties": {
+                "board_id": { "type": "string" },
+                "role": { "type": "string" },
+                "ssh": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["user", "host"],
+                  "properties": {
+                    "user": { "type": "string" },
+                    "host": { "type": "string" }
+                  }
+                },
+                "agent_root": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "platform_templates": { "type": "object" }
+  }
+}

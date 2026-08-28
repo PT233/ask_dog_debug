@@ -1,0 +1,27 @@
+{
+  "name": "ask-dog-debug",
+  "version": "1.0.0",
+  "description": "Evidence-first ROS 2 diagnosis for Neowa A2W and M20 robot dogs.",
+  "author": {
+    "name": "PT233",
+    "url": "https://github.com/PT233"
+  },
+  "homepage": "https://github.com/PT233/dsh-debug-agent",
+  "repository": "https://github.com/PT233/dsh-debug-agent",
+  "license": "Apache-2.0",
+  "keywords": ["neowa", "ros2", "robotics", "diagnostics", "topology"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Ask Dog Debug",
+    "shortDescription": "Evidence-first Neowa robot diagnosis",
+    "longDescription": "Routes A2W and M20 incidents by robot identity, gathers read-only evidence with specialist agents, and renders only the proven problem data chain.",
+    "developerName": "Neowa",
+    "category": "Developer Tools",
+    "capabilities": ["ROS 2 diagnostics", "Incident topology", "Case memory"],
+    "defaultPrompt": [
+      "Use $ask-dog-debug to diagnose this robot symptom.",
+      "Show the proven ROS 2 problem data chain.",
+      "Review the recent cases for this robot."
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0.0",
+  "identity_source": "/etc/dsh-agent/robot-id",
+  "robots": [
+    {
+      "robot_id": "003",
+      "platform": "a2w",
+      "knowledge_status": "ready",
+      "boards": [
+        {
+          "board_id": "003-i7",
+          "role": "i7",
+          "ssh": { "user": "unitree", "host": "003-i7" },
+          "agent_root": "/home/unitree/yuqi/dsh-agent"
+        },
+        {
+          "board_id": "003-nx",
+          "role": "nx",
+          "ssh": { "user": "anx", "host": "003-nx" },
+          "agent_root": "/home/anx/yuqi/dsh-agent"
+        }
+      ]
+    },
+    {
+      "robot_id": "004",
+      "platform": "a2w",
+      "knowledge_status": "ready",
+      "boards": [
+        {
+          "board_id": "004-i7",
+          "role": "i7",
+          "ssh": { "user": "unitree", "host": "004-i7" },
+          "agent_root": "/home/unitree/yuqi/dsh-agent"
+        },
+        {
+          "board_id": "004-nx",
+          "role": "nx",
+          "ssh": { "user": "anx", "host": "004-nx" },
+          "agent_root": "/home/anx/yuqi/dsh-agent"
+        }
+      ]
+    }
+  ],
+  "platform_templates": {
+    "m20": {
+      "knowledge_status": "not-ready",
+      "registration_required": true,
+      "note": "Add verified robot and board identities after real-machine discovery."
+    }
+  }
+}

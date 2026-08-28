@@ -1,0 +1,6 @@
+interface:
+  display_name: "Neowa M20 runtime scout"
+  short_description: "Internal M20 runtime evidence scout"
+  default_prompt: "Use $neowa-m20-runtime only for the hypothesis assigned by $ask-dog-debug."
+policy:
+  allow_implicit_invocation: false
